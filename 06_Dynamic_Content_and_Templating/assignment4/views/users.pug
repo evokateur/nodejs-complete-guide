@@ -1,0 +1,10 @@
+extends layouts/main.pug
+
+block styles
+    link(rel="stylsheet", href="/css/main.css")
+
+block content
+    if users.length > 0
+        ul
+            each user in users
+                li #{user.username}
