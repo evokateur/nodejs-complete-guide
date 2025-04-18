@@ -1,5 +1,0 @@
-- `npm init`
-- `npm install nodemon --save-dev`
-- modify `package.json` to add `start` and `start-server` scripts
-- `npm install express --save`
-- `npm install body-parser--save`
