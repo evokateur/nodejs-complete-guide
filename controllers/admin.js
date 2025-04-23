@@ -35,15 +35,21 @@ exports.getEditProduct = (req, res, next) => {
 };
 
 exports.postEditProduct = (req, res, next) => {
-    productId = req.body.productId;
-    title = req.body.title;
-    imageUrl = req.body.imageUrl;
-    description = req.body.description;
-    price = req.body.price;
+    const productId = req.body.productId;
+    const title = req.body.title;
+    const imageUrl = req.body.imageUrl;
+    const description = req.body.description;
+    const price = req.body.price;
 
-    product = new Product(productId, title, imageUrl, description, price);
+    const product = new Product(productId, title, imageUrl, description, price);
     product.save();
 
+    res.redirect('/admin/products');
+}
+
+exports.postDeleteProduct = (req, res, next) => {
+    const productId = req.body.productId;
+    Product.deleteById(productId);
     res.redirect('/admin/products');
 }
 
