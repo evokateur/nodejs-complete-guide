@@ -1,9 +1,9 @@
-#  My follow-along code for the *Node.js - The Complete Guide* Udemy course 
+###  My follow-along code for *Node.js - The Complete Guide* on Udemy
 
-Added Docker container for MySQL (who the heck installs MySQL on their machine), so we run
+- Added Docker container for MySQL (who the heck installs MySQL on their machine), so we run
 
-```sh
-docker-compose up --build
-```
+    ```sh
+    docker-compose up --build
+    ```
 
-rather than `npm start`
+    rather than `npm start`
