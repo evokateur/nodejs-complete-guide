@@ -29,7 +29,7 @@ exports.getEditProduct = (req, res, next) => {
             pageTitle: 'Edit Product',
             path: '/admin/edit-product',
             editing: true,
-            product: product 
+            product: product
         });
     });
 };
@@ -53,12 +53,16 @@ exports.postDeleteProduct = (req, res, next) => {
     res.redirect('/admin/products');
 }
 
-exports.getProducts = (req, res, next) => {
-    Product.fetchAll(products => {
-        res.render('admin/products', {
-            prods: products,
-            pageTitle: 'Admin Products',
-            path: '/admin/products'
-        });
-    });
+exports.getProducts = (req, res, next) =>
+{
+    Product.fetchAll()
+        .then(([rows, schema]) => {
+            res.render('admin/products', {
+                products: rows,
+                pageTitle: 'Admin Products',
+                path: '/admin/products'
+            });
+        })
+        .catch(err => console.log(err));
+
 };
