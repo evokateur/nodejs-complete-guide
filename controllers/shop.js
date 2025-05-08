@@ -66,16 +66,18 @@ exports.postCart = (req, res, next) => {
         .then(products => {
             let product;
             if (products.length > 0) {
-                const product = products[0];
+                product = products[0];
             }
-            let totalQuantity = 1;
             if (product) {
-                // TODO
+                newQuantity = product.cartItem.quantity + 1;
+                return userCart.addProduct(product, {
+                    through: { quantity: newQuantity }
+                });
             }
             return Product.findByPk(productId)
                 .then(product => {
                     return userCart.addProduct(product, {
-                        through: { quantity: totalQuantity }
+                        through: { quantity: 1 }
                     });
                 });
         })
