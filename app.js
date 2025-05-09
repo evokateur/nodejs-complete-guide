@@ -51,8 +51,8 @@ app.use(shopRoutes);
 app.use(errorController.get404);
 
 sequelize
-    // .sync()
-    .sync({alter: true})
+    .sync()
+    // .sync({alter: true})
     // .sync({force: true})
     .then(result => {
         return User.findByPk(1);
@@ -62,7 +62,12 @@ sequelize
         }
         return Promise.resolve(user);
     }).then( user => {
-        return user.createCart()
+        user.getCart().then(cart => {
+            if (cart) {
+                return cart;
+            }
+            return user.createCart()
+        })
     })
     .then( cart => {
         app.listen(3000);
