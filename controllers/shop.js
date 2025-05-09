@@ -97,15 +97,17 @@ exports.postCartDeleteItem = (req, res, next) => {
             const product = products[0];
             return product.cartItem.destroy();
         })
-        .then(result=> {
+        .then(result => {
             res.redirect('/cart');
         })
         .catch(err => { console.log(err) });
 };
 
 exports.postOrder = (req, res, next) => {
+    let userCart;
     req.user.getCart()
         .then(cart => {
+            userCart = cart;
             return cart.getProducts();
         }).then(products => {
             return req.user
@@ -118,21 +120,22 @@ exports.postOrder = (req, res, next) => {
                 })
         })
         .then(result => {
+            return userCart.setProducts(null);
+        })
+        .then(result => {
             res.redirect('/orders');
         })
         .catch(err => { console.log(err) });
 }
 
 exports.getOrders = (req, res, next) => {
-    res.render('shop/orders', {
-        path: '/orders',
-        pageTitle: 'Your Orders'
-    });
-};
-
-exports.getCheckout = (req, res, next) => {
-    res.render('shop/checkout', {
-        path: '/checkout',
-        pageTitle: 'Checkout'
-    });
+    req.user.getOrders({ include: ['products']})
+        .then(orders => {
+            res.render('shop/orders', {
+                path: '/orders',
+                pageTitle: 'Your Orders',
+                orders: orders
+            });
+        })
+        .catch(err => { console.log(err)});
 };
