@@ -33,12 +33,20 @@ I'm using Railway and use these values from the output of `railway variables`
 
 ### Run migrations
 
-[ *we are working on this one..* ]
+by commenting out `.sync()` and commenting in `.sync({force: true})` in the `sequelize` block of `app.js`
 
-### Start the app
+```js
+sequelize
+    .sync()
+    // .sync({alter: true})
+    // .sync({force: true})
+    .then(result => {...
+```
+
+then starting the app at http://localhost:3000/
 
 ```sh
 npm start
 ```
 
- http://localhost:3000/
+Undo the change to avoid clobbering the data each time you start.
