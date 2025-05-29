@@ -31,8 +31,14 @@ I'm using Railway and use these values from the output of `railway variables`
 - `RAILWAY_TCP_PROXY_DOMAIN` for `DB_HOST`
 - `RAILWAY_TCP_PROXY_PORT` for `DB_PORT`
 
+### Run migrations
+
+[ *we are working on this one..* ]
+
 ### Start the app
 
 ```sh
 npm start
 ```
+
+ http://localhost:3000/
