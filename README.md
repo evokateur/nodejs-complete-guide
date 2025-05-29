@@ -31,7 +31,7 @@ I'm using Railway and use these values from the output of `railway variables`
 - `RAILWAY_TCP_PROXY_DOMAIN` for `DB_HOST`
 - `RAILWAY_TCP_PROXY_PORT` for `DB_PORT`
 
-### Run migrations
+### Run "migrations"
 
 by commenting out `.sync()` and commenting in `.sync({force: true})` in the `sequelize` block of `app.js`
 
