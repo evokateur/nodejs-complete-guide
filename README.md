@@ -16,7 +16,7 @@ npm install
 cp .env.example .env
 ```
 
-set vars
+Edit vars in `.env`
 
 ```
 DB_HOST=
