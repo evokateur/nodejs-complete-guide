@@ -1,8 +1,8 @@
 const Product = require('../models/product.js');
-const User = require('../models/user.js');
+// const User = require('../models/user.js');
 
 exports.getProducts = (req, res, next) => {
-    Product.findAll()
+    Product.fetchAll()
         .then(products => {
             res.render('shop/product-list', {
                 products: products,
@@ -15,7 +15,7 @@ exports.getProducts = (req, res, next) => {
 
 exports.getProduct = (req, res, next) => {
     id = req.params.id;
-    Product.findByPk(id)
+    Product.findById(id)
         .then(product => {
             res.render('shop/product-detail', {
                 product: product,
@@ -27,7 +27,7 @@ exports.getProduct = (req, res, next) => {
 };
 
 exports.getIndex = (req, res, next) => {
-    Product.findAll()
+    Product.fetchAll()
         .then(products => {
             res.render('shop/index', {
                 prods: products,
@@ -73,7 +73,7 @@ exports.postCart = (req, res, next) => {
                 console.log('quantity = ' + totalQuantity);
                 return product;
             }
-            return Product.findByPk(productId);
+            return Product.findById(productId);
         })
         .then(product => {
             console.log('quantity = ' + totalQuantity);
