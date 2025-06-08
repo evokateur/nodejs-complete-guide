@@ -4,11 +4,12 @@ const normalizeId = require('./mongo-utils.js').normalizeId;
 const normalizeMany = require('./mongo-utils.js').normalizeMany;
 
 class Product {
-    constructor(title, price, imageUrl, description, id) {
+    constructor(title, price, imageUrl, description, userId, id) {
         this.title = title;
         this.price = price;
         this.imageUrl = imageUrl;
         this.description = description;
+        this.userId = userId;
         if (id) {
             this.id = id
         }
@@ -22,19 +23,20 @@ class Product {
                     title: this.title, 
                     price: this.price, 
                     imageUrl: this.imageUrl, 
-                    description: this.description
+                    description: this.description,
+                    userId: new mongodb.ObjectId(this.userId)
                 }})
-                .then(result => {
-                    console.log(result);
-                })
                 .catch(err => {
                     console.log(err);
                 });
         } else {
-            return db.collection('products').insertOne(this)
-                .then(result => {
-                    console.log(result);
-                })
+            return db.collection('products').insertOne({
+                title: this.title,
+                price: this.price,
+                imageUrl: this.imageUrl,
+                description: this.description,
+                userId: new mongodb.ObjectId(this.userId)
+            })
                 .catch(err => {
                     console.log(err);
                 });
@@ -46,7 +48,6 @@ class Product {
         return db.collection('products').find().toArray()
             .then(products => {
                 products = normalizeMany(products);
-                console.log(products);
                 return products;
             })
             .catch(err => {
@@ -59,7 +60,6 @@ class Product {
         return db.collection('products').findOne({ _id: new mongodb.ObjectId(id) })
             .then(product => {
                 product = normalizeId(product);
-                console.log(product);
                 return product;
             })
             .catch(err => {
@@ -70,9 +70,6 @@ class Product {
     static deleteById(id) {
         const db = getDb();
         return db.collection('products').deleteOne({ _id: new mongodb.ObjectId(id) })
-            .then(result => {
-                console.log(result);
-            })
             .catch(err => {
                 console.log(err);
             });

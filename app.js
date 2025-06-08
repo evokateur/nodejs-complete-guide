@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 
 const errorController = require('./controllers/error.js');
 const mongoConnect = require('./util/database.js').mongoConnect;
+const User = require('./models/user.js');
 
 const app = express();
 
@@ -20,13 +21,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
-    // User.findByPk(1)
-    //     .then(user => {
-    //         req.user = user;
-    //         next();
-    //     })
-    //     .catch(err => {console.log(err);})
-    next();
+    User.findByUsername('default')
+        .then(user => {
+            req.user = new User(user.username, user.email, user.cart, user.id);
+            console.log('found user:', req.user);
+            next();
+        })
+        .catch(err => {console.log(err);})
 });
 
 app.use('/admin', adminRoutes);
