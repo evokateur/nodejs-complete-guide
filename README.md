@@ -19,7 +19,7 @@ Set up a free database with
 cp .env.example .env
 ```
 
-then edit `MONGODB_URI` in `.env`
+Set `MONGODB_URI` in `.env`
 
 ### Start the Application
 
@@ -27,4 +27,4 @@ then edit `MONGODB_URI` in `.env`
 npm start
 ```
 
-should make the application available at <http://localhost:3000/>
+The application should be available at <http://localhost:3000/>
