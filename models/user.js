@@ -48,7 +48,7 @@ class User {
         return db.collection('users').updateOne(
             { _id: new mongodb.ObjectId(this.id) },
             {$set: {cart: this.cart}}
-        ).catch(err => { console.log(err); }); 
+        ).catch(err => { console.log(err); });
     }
 
     getCart() {
@@ -64,10 +64,44 @@ class User {
             });
     }
 
+    createOrderFromCart() {
+        return this.saveCartAsOrder().then(() => {
+            this.cart = { items: [] };
+            return this.saveCart();
+        });
+    }
+
+    saveCartAsOrder() {
+        const db = getDb();
+        return db.collection('orders').insertOne({ userId: new mongodb.ObjectId(this.id), ...this.cart })
+            .catch(err => { console.log(err); });
+    }
+
+    getOrders() {
+        const db = getDb();
+        return db.collection('orders') .find({ userId: new mongodb.ObjectId(this.id) }) .toArray()
+            .then(orders => Promise.all( // https://chatgpt.com/share/6846a6b3-1308-8012-ae24-c63334630a44
+                orders.map(order =>
+                    db.collection('products') .find({ _id: { $in: order.items.map(i => i.productId) } }) .toArray()
+                    .then(products => {
+                        order.items = products.map(product => {
+                            const { _id, ...rest } = product;
+                            return {
+                                productId: _id,
+                                ...rest,
+                                quantity: order.items .find(i => i.productId.toString() === product._id.toString()).quantity,
+                            };
+                        });
+                        return normalizeId(order);
+                    })
+                )
+            ));
+    }
+
     save() {
         const db = getDb();
         if (this.id) {
-            return db.collection('users').updateOne({ _id: new mongodb.ObjectId(this.id)}, 
+            return db.collection('users').updateOne({ _id: new mongodb.ObjectId(this.id)},
                 {$set: {
                     username: this.username,
                     email: this.email,
