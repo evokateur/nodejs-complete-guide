@@ -1,7 +1,7 @@
 const getDb = require('../util/database').getDb;
 const mongodb = require('mongodb');
-const normalizeId = require('./mongo-utils.js').normalizeId;
-const normalizeMany = require('./mongo-utils.js').normalizeMany;
+const normalizeIds = require('./mongo-utils.js').normalizeIds;
+const denormalizeIds = require('./mongo-utils.js').denormalizeIds;
 
 class Product {
     constructor(title, price, imageUrl, description, userId, id) {
@@ -47,7 +47,7 @@ class Product {
         const db = getDb();
         return db.collection('products').find().toArray()
             .then(products => {
-                products = normalizeMany(products);
+                products = normalizeIds(products);
                 return products;
             })
             .catch(err => {
@@ -59,7 +59,7 @@ class Product {
         const db = getDb();
         return db.collection('products').findOne({ _id: new mongodb.ObjectId(id) })
             .then(product => {
-                product = normalizeId(product);
+                product = normalizeIds(product);
                 return product;
             })
             .catch(err => {

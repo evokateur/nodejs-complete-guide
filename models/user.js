@@ -1,7 +1,7 @@
 const getDb = require('../util/database').getDb;
 const mongodb = require('mongodb');
-const normalizeId = require('./mongo-utils.js').normalizeId;
-const normalizeMany = require('./mongo-utils.js').normalizeMany;
+const normalizeIds = require('./mongo-utils.js').normalizeIds;
+const denormalizeIds = require('./mongo-utils.js').denormalizeIds;
 
 class User {
     constructor(username, email, cart, id) {
@@ -15,14 +15,14 @@ class User {
 
     addCartItem(product) {
         const cartItem = this.cart.items.find(item => {
-            return item.productId.toString() === product.id.toString();
+            return item.product.id.toString() === product.id.toString();
         });
 
         if (cartItem) {
             cartItem.quantity++;
         } else {
             const newItem = {
-                productId: new mongodb.ObjectId(product.id),
+                product: {id: product.id, title: product.title, price: product.price},
                 quantity: 1
             }
             this.cart.items.push(newItem);
@@ -33,7 +33,7 @@ class User {
 
     removeCartItem(product) {
         const cartItem = this.cart.items.find(item => {
-            return item.productId.toString() === product.id.toString();
+            return item.product.id.toString() === product.id.toString();
         });
 
         if (cartItem) {
@@ -47,20 +47,16 @@ class User {
         const db = getDb();
         return db.collection('users').updateOne(
             { _id: new mongodb.ObjectId(this.id) },
-            {$set: {cart: this.cart}}
+            {$set: {cart: normalizeIds(this.cart)}}
         ).catch(err => { console.log(err); });
     }
 
     getCart() {
         const db = getDb();
-        return db.collection('products').find({_id: { $in: this.cart.items.map(item => item.productId) } }).toArray()
-            .then(products => {
-                return products.map(product => {
-                    return normalizeId({
-                        ...product,
-                        quantity: this.cart.items.find(item => item.productId.toString() === product._id.toString()).quantity
-                    });
-                });
+
+        return db.collection('users').findOne({ _id: new mongodb.ObjectId(this.id) })
+            .then(user => {
+                return user.cart ? normalizeIds(user.cart) : { items: [] };
             });
     }
 
@@ -73,29 +69,18 @@ class User {
 
     saveCartAsOrder() {
         const db = getDb();
-        return db.collection('orders').insertOne({ userId: new mongodb.ObjectId(this.id), ...this.cart })
-            .catch(err => { console.log(err); });
+        return db.collection('orders').insertOne({
+            user: denormalizeIds({ id: this.id, email: this.email }),
+            items: denormalizeIds(this.cart.items) 
+        }) .catch(err => { console.log(err); });
     }
 
     getOrders() {
         const db = getDb();
-        return db.collection('orders') .find({ userId: new mongodb.ObjectId(this.id) }) .toArray()
-            .then(orders => Promise.all( // https://chatgpt.com/share/6846a6b3-1308-8012-ae24-c63334630a44
-                orders.map(order =>
-                    db.collection('products') .find({ _id: { $in: order.items.map(i => i.productId) } }) .toArray()
-                    .then(products => {
-                        order.items = products.map(product => {
-                            const { _id, ...rest } = product;
-                            return {
-                                productId: _id,
-                                ...rest,
-                                quantity: order.items .find(i => i.productId.toString() === product._id.toString()).quantity,
-                            };
-                        });
-                        return normalizeId(order);
-                    })
-                )
-            ));
+        return db.collection('orders') .find({ 'user._id': new mongodb.ObjectId(this.id) }) .toArray()
+            .then(orders =>  {
+                return normalizeIds(orders);
+            });
     }
 
     save() {
@@ -122,7 +107,7 @@ class User {
         const db = getDb();
         return db.collection('users').findOne({ _id: new mongodb.ObjectId(id) })
             .then(user => {
-                user = normalizeId(user);
+                user = normalizeIds(user);
                 return user;
             })
             .catch(err => {
@@ -134,7 +119,7 @@ class User {
         const db = getDb();
         return db.collection('users').findOne({ username: username })
             .then(user => {
-                user = normalizeId(user);
+                user = normalizeIds(user);
                 return user;
             })
             .catch(err => {
