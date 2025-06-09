@@ -28,6 +28,22 @@ class User {
             this.cart.items.push(newItem);
         }
 
+        return this.saveCart();
+    }
+
+    removeCartItem(product) {
+        const cartItem = this.cart.items.find(item => {
+            return item.productId.toString() === product.id.toString();
+        });
+
+        if (cartItem) {
+            this.cart.items.splice(this.cart.items.indexOf(cartItem), 1);
+        }
+
+        return this.saveCart();
+    }
+
+    saveCart() {
         const db = getDb();
         return db.collection('users').updateOne(
             { _id: new mongodb.ObjectId(this.id) },

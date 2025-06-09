@@ -14,10 +14,10 @@ router.get('/products/:id', shopController.getProduct);
 
 router.get('/cart', shopController.getCart);
 
-router.post('/cart', shopController.postCart);
+router.post('/cart', shopController.postCartAddItem);
 
-// router.post('/cart-delete-item', shopController.postCartDeleteItem);
-//
+router.post('/cart-delete-item', shopController.postCartRemoveItem);
+
 // router.post('/create-order', shopController.postOrder);
 //
 // router.get('/orders', shopController.getOrders);

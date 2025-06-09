@@ -24,7 +24,6 @@ app.use((req, res, next) => {
     User.findByUsername('default')
         .then(user => {
             req.user = new User(user.username, user.email, user.cart, user.id);
-            console.log('found user:', req.user);
             next();
         })
         .catch(err => {console.log(err);})
