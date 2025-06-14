@@ -19,11 +19,7 @@ npm install
 Set up a free database with
 [MongoDB Atlas](https://www.mongodb.com/atlas/database) or run a local instance.
 
-```sh
-cp .env.example .env
-```
-
-Set `MONGODB_URI` in `.env`
+Copy `.env.example` to `.env` and set the `MONGODB_URI`
 
 ### Start the Application
 
