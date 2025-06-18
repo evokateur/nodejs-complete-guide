@@ -1,4 +1,4 @@
-# Products
+# Little Shop of Products
 Coding along with [*NodeJS - The Complete Guide*](https://www.udemy.com/course/nodejs-the-complete-guide/)
 
 ![Capture d’écran 2025-06-09 à 15 35 37](https://github.com/user-attachments/assets/1774c6ff-8eb2-4934-925c-04af2c2902ad)
