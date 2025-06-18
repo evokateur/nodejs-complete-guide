@@ -5,17 +5,17 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const errorController = require('./controllers/error.js');
-const mongoConnect = require('./util/database.js').mongoConnect;
-const User = require('./models/user.js');
+const errorController = require('./src/controllers/error.js');
+const mongoConnect = require('./src/util/database.js').mongoConnect;
+const User = require('./src/models/user.js');
 
 const app = express();
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
-const adminRoutes = require('./routes/admin.js');
-const shopRoutes = require('./routes/shop.js');
+const adminRoutes = require('./src/routes/admin.js');
+const shopRoutes = require('./src/routes/shop.js');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
