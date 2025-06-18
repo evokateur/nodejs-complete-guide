@@ -72,7 +72,7 @@ The application should be available at <http://localhost:3000/>
 ```bash
 npm run dev                   # Run TypeScript version with hot reload
 npm run build                 # Compile TypeScript to JavaScript
-npm start                     # Run compiled JavaScript version
+npm run start                 # Run compiled JavaScript version
 npm run build:watch           # Compile TypeScript in watch mode
 ```
 
@@ -80,5 +80,5 @@ npm run build:watch           # Compile TypeScript in watch mode
 
 ```bash
 npm run dev:js                # Run original JavaScript version
-npm run start-server          # Run original JavaScript version (no nodemon)
+npm run start:js              # Run original JavaScript version (no nodemon)
 ```
