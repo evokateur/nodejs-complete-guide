@@ -26,7 +26,8 @@ exports.postAddProduct = (req, res, next) => {
 };
 
 exports.getEditProduct = (req, res, next) => {
-    id = req.params.id;
+    console.log("req.params: ", req.params);
+    const id = req.params.id;
     Product.findById(id)
         .then(product => {
             if (!product) {
