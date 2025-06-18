@@ -1,5 +1,15 @@
-.DS_Store
+dist/
+
+*.tsbuildinfo
+
 node_modules
+npm-debug.log*
+
 .env
+
+*.log
 *.swp
 *.bak
+
+.DS_Store
+
