@@ -1,8 +1,8 @@
 # Little Shop of Products
 
-Coding along with [*NodeJS - The Complete Guide*](https://www.udemy.com/course/nodejs-the-complete-guide/)
+Coding along with [**NodeJS - The Complete Guide**](https://www.udemy.com/course/nodejs-the-complete-guide/)
 
-The Shop app developed in Sections 3 through 23, with the added twist of TypeScript
+This is the Shop/Products app developed in Sections 3 through 23, with the added twist of TypeScript
 
 ![Capture d’écran 2025-06-09 à 15 35 37](https://github.com/user-attachments/assets/1774c6ff-8eb2-4934-925c-04af2c2902ad)
 
@@ -40,9 +40,8 @@ The application should be available at <http://localhost:3000/>
 ## Project Structure
 
 - Both JavaScript and TypeScript versions are fully functional
-- TypeScript files automatically take precedence when imported
 - Original JavaScript files are preserved for reference and fallback
-- Database-related files will be converted alongside Mongoose integration
+- Database-related files will be converted in **Section 13: Working with Mongoose**
 
 ```
 .
