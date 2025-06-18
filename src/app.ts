@@ -3,8 +3,10 @@ import path from 'path';
 import express, { Request, Response, NextFunction } from 'express';
 import bodyParser from 'body-parser';
 
+// Impoort converted error controller
+import * as errorController from './controllers/error';
+
 // Temporarily keep require() for database-related modules
-const errorController = require('./controllers/error.js');
 const mongoConnect = require('./util/database.js').mongoConnect;
 const User = require('./models/user.js');
 
