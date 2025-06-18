@@ -3,7 +3,6 @@ import path from 'path';
 import express, { Request, Response, NextFunction } from 'express';
 import bodyParser from 'body-parser';
 
-// Impoort converted error controller
 import * as errorController from './controllers/error';
 
 // Temporarily keep require() for database-related modules
@@ -24,7 +23,6 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
-// Import routes (these can be converted to TS)
 import adminRoutes from './routes/admin';
 import shopRoutes from './routes/shop';
 
