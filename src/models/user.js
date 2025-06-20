@@ -1,4 +1,3 @@
-const getDb = require('../util/database').getDb;
 const mongodb = require('mongodb');
 const normalizeIds = require('./mongo-utils.js').normalizeIds;
 const denormalizeIds = require('./mongo-utils.js').denormalizeIds;

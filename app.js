@@ -4,9 +4,9 @@ const path = require('path');
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 const errorController = require('./src/controllers/error.js');
-const mongoConnect = require('./src/util/database.js').mongoConnect;
 const User = require('./src/models/user.js');
 
 const app = express();
@@ -34,6 +34,9 @@ app.use(shopRoutes);
 
 app.use(errorController.get404);
 
-mongoConnect(() => {
-    app.listen(3000);
-});
+mongoose.connect(process.env.MONGODB_URI)
+    .then(result => {
+        app.listen(3000);
+    }).catch(err => {
+        console.log(err);
+    });
