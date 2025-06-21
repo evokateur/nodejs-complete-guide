@@ -40,28 +40,32 @@ The application should be available at <http://localhost:3000/>
 ## Project Structure
 
 - Both JavaScript and TypeScript versions are fully functional
-- Original JavaScript files are preserved for reference and fallback
-- Database-related files will be converted in **Section 13: Working with Mongoose**
+- Original JavaScript files are preserved for reference and head-scratching
 
 ```
 .
 ├── app.js                    # Original JavaScript entry point
-├── src/                      
-│   ├── app.ts                # TypeScript entry point
-│   ├── controllers           # Partially converted 
-│   │   ├── admin.js          
-│   │   ├── error.js
-│   │   ├── error.ts
-│   │   └── shop.js           
-│   ├── models                # Awaiting conversion..
-│   │   ├── mongo-utils.js
-│   │   ├── product.js
-│   │   └── user.js
-│   ├── routes                # Converted 
+├── src
+│   ├── app.ts                # TypeScript entry point
+│   ├── controllers
 │   │   ├── admin.js
 │   │   ├── admin.ts
+│   │   ├── error.js
+│   │   ├── error.ts
 │   │   ├── shop.js
 │   │   └── shop.ts
+│   ├── models
+│   │   ├── order.js
+│   │   ├── order.ts
+│   │   ├── product.js
+│   │   ├── product.ts
+│   │   ├── user.js
+│   │   └── user.ts
+│   └── routes
+│       ├── admin.js
+│       ├── admin.ts
+│       ├── shop.js
+│       └── shop.ts
 ├── dist/                     # Compiled TypeScript output
 ```
 

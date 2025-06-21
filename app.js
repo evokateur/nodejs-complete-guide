@@ -4,9 +4,9 @@ const path = require('path');
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 const errorController = require('./src/controllers/error.js');
-const mongoConnect = require('./src/util/database.js').mongoConnect;
 const User = require('./src/models/user.js');
 
 const app = express();
@@ -21,12 +21,25 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
-    User.findByUsername('default')
+    User.findOne({ username: 'default' })
         .then(user => {
-            req.user = new User(user.username, user.email, user.cart, user.id);
+            if (!user) {
+                const user = new User({
+                    username: 'default',
+                    email: 'juan@foo.net',
+                    cart: { items: [] }
+                });
+                return user.save();
+            }
+            return user;
+        })
+        .then(user => {
+            req.user = user;
             next();
         })
-        .catch(err => {console.log(err);})
+        .catch(err => {
+            console.log(err);
+        })
 });
 
 app.use('/admin', adminRoutes);
@@ -34,6 +47,9 @@ app.use(shopRoutes);
 
 app.use(errorController.get404);
 
-mongoConnect(() => {
-    app.listen(3000);
-});
+mongoose.connect(process.env.MONGODB_URI)
+    .then(result => {
+        app.listen(3000);
+    }).catch(err => {
+        console.log(err);
+    });

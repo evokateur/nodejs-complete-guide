@@ -1,8 +1,14 @@
-const Product = require('../models/product.js');
-const User = require('../models/user.js');
-const Order = require('../models/order.js');
+import { Request, Response, NextFunction } from 'express';
+import Product from '../models/product';
+import User, { IUser } from '../models/user';
+import Order from '../models/order';
 
-exports.getProducts = (req, res, next) => {
+// Extend Request interface to include user property
+interface AuthenticatedRequest extends Request {
+    user: IUser;
+}
+
+export const getProducts = (req: Request, res: Response, next: NextFunction): void => {
     Product.find()
         .then(products => {
             res.render('shop/product-list', {
@@ -14,10 +20,14 @@ exports.getProducts = (req, res, next) => {
         .catch(err => console.log(err));
 };
 
-exports.getProduct = (req, res, next) => {
-    const id = req.params.id;
+export const getProduct = (req: Request, res: Response, next: NextFunction): void => {
+    const id: string = req.params.id;
+
     Product.findById(id)
         .then(product => {
+            if (!product) {
+                return res.redirect('/');
+            }
             res.render('shop/product-detail', {
                 product: product,
                 pageTitle: product.title,
@@ -27,7 +37,7 @@ exports.getProduct = (req, res, next) => {
         .catch(err => console.log(err));
 };
 
-exports.getIndex = (req, res, next) => {
+export const getIndex = (req: Request, res: Response, next: NextFunction): void => {
     Product.find()
         .then(products => {
             res.render('shop/index', {
@@ -39,7 +49,7 @@ exports.getIndex = (req, res, next) => {
         .catch(err => console.log(err));
 };
 
-exports.getCart = (req, res, next) => {
+export const getCart = (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
     req.user.getCart()
         .then(cart => {
             res.render('shop/cart', {
@@ -48,30 +58,38 @@ exports.getCart = (req, res, next) => {
                 cart: cart 
             });
         })
-        .catch(err => {console.log(err)});
+        .catch(err => {
+            console.log(err);
+        });
 };
 
-exports.postCartItem = (req, res, next) => {
-    const productId = req.body.productId;
+export const postCartItem = (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
+    const productId: string = req.body.productId;
 
     Product.findById(productId)
         .then(product => {
+            if (!product) {
+                return res.redirect('/cart');
+            }
             return req.user.addCartItem(product);
         })
         .then(result => {
             res.redirect('/cart');
-        });
+        })
+        .catch(err => console.log(err));
 };
 
-exports.deleteCartItem = (req, res, next) => {
-    const productId = req.body.productId;
+export const deleteCartItem = (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
+    const productId: string = req.body.productId;
+
     req.user.removeCartItem(productId)
         .then(() => {
             res.redirect('/cart');
         })
+        .catch(err => console.log(err));
 };
 
-exports.postOrder = (req, res, next) => {
+export const postOrder = (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
     Order.createFromUserCart(req.user)
         .then(order => {
             return req.user.clearCart();
@@ -82,9 +100,9 @@ exports.postOrder = (req, res, next) => {
         .catch(err => {
             console.log(err);
         });
-}
+};
 
-exports.getOrders = (req, res, next) => {
+export const getOrders = (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
     Order.findByUserId(req.user.id)
         .then(orders => {
             res.render('shop/orders', {
@@ -93,5 +111,7 @@ exports.getOrders = (req, res, next) => {
                 orders: orders
             });
         })
-        .catch(err => { console.log(err)});
+        .catch(err => {
+            console.log(err);
+        });
 };
