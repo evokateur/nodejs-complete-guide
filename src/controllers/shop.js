@@ -1,5 +1,6 @@
 const Product = require('../models/product.js');
 const User = require('../models/user.js');
+const Order = require('../models/order.js');
 
 exports.getProducts = (req, res, next) => {
     Product.find()
@@ -71,14 +72,20 @@ exports.deleteCartItem = (req, res, next) => {
 };
 
 exports.postOrder = (req, res, next) => {
-    req.user.createOrderFromCart()
-        .then((result) => {
+    Order.createFromUserCart(req.user)
+        .then(order => {
+            return req.user.clearCart();
+        })
+        .then(user => {
             res.redirect('/orders');
+        })
+        .catch(err => {
+            console.log(err);
         });
 }
 
 exports.getOrders = (req, res, next) => {
-    req.user.getOrders()
+    Order.findByUserId(req.user.id)
         .then(orders => {
             res.render('shop/orders', {
                 path: '/orders',
