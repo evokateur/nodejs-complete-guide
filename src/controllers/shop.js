@@ -1,8 +1,8 @@
 const Product = require('../models/product.js');
-// const User = require('../models/user.js');
+const User = require('../models/user.js');
 
 exports.getProducts = (req, res, next) => {
-    Product.fetchAll()
+    Product.find()
         .then(products => {
             res.render('shop/product-list', {
                 products: products,
@@ -27,7 +27,7 @@ exports.getProduct = (req, res, next) => {
 };
 
 exports.getIndex = (req, res, next) => {
-    Product.fetchAll()
+    Product.find()
         .then(products => {
             res.render('shop/index', {
                 prods: products,
@@ -64,14 +64,10 @@ exports.postCartItem = (req, res, next) => {
 
 exports.deleteCartItem = (req, res, next) => {
     const productId = req.body.productId;
-
-    Product.findById(productId)
-        .then(product => {
-            return req.user.removeCartItem(product);
-        })
-        .then(result => {
+    req.user.removeCartItem(productId)
+        .then(() => {
             res.redirect('/cart');
-        });
+        })
 };
 
 exports.postOrder = (req, res, next) => {

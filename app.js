@@ -21,12 +21,25 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
-    User.findByUsername('default')
+    User.findOne({ username: 'default' })
         .then(user => {
-            req.user = new User(user.username, user.email, user.cart, user.id);
+            if (!user) {
+                const user = new User({
+                    username: 'default',
+                    email: 'juan@foo.net',
+                    cart: { items: [] }
+                });
+                return user.save();
+            }
+            return user;
+        })
+        .then(user => {
+            req.user = user;
             next();
         })
-        .catch(err => {console.log(err);})
+        .catch(err => {
+            console.log(err);
+        })
 });
 
 app.use('/admin', adminRoutes);
