@@ -6,19 +6,19 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const errorController = require('./src/controllers/error.js');
-const User = require('./src/models/user.js');
+const errorController = require('./controllers/error.js');
+const User = require('./models/user.js');
 
 const app = express();
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
-const adminRoutes = require('./src/routes/admin.js');
-const shopRoutes = require('./src/routes/shop.js');
+const adminRoutes = require('./routes/admin.js');
+const shopRoutes = require('./routes/shop.js');
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../../public')));
 
 app.use((req, res, next) => {
     User.findOne({ username: 'default' })
