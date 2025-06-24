@@ -2,6 +2,7 @@ import mongoose, { Schema, Document, Model } from 'mongoose';
 
 // Interface for Product document
 export interface IProduct extends Document {
+    id: string;
     title: string;
     price: number;
     imageUrl: string;
