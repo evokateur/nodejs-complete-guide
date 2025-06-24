@@ -1,11 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import Product from '../models/product';
+import User from '../models/user';
 
 // Extend Request interface to include user property
 interface AuthenticatedRequest extends Request {
-    user: {
-        id: string;
-    };
+    user: InstanceType<typeof User>;
 }
 
 export const getAddProduct = (req: Request, res: Response, next: NextFunction): void => {
@@ -67,16 +66,19 @@ export const postEditProduct = (req: Request, res: Response, next: NextFunction)
     Product.findById(productId)
         .then(product => {
             if (!product) {
-                return res.redirect('/admin/products');
+                res.redirect('/admin/products');
+                return Promise.resolve(null); // Return a Promise that resolves to null
             }
             product.title = title;
             product.price = price;
             product.imageUrl = imageUrl;
             product.description = description;
-            return product.save();
+            return product.save(); // This returns a Promise<IProduct>
         })
         .then(result => {
-            res.redirect('/admin/products');
+            if (result) { // Only redirect if we actually saved something
+                res.redirect('/admin/products');
+            }
         })
         .catch(err => console.log(err));
 };

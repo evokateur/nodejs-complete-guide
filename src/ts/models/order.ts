@@ -12,6 +12,7 @@ interface IOrderLine {
 
 // Interface for Order document
 export interface IOrder extends Document {
+    id: string;
     userId: mongoose.Types.ObjectId;
     items: IOrderLine[];
 }
@@ -55,7 +56,7 @@ const orderSchema = new Schema<IOrder>({
 });
 
 orderSchema.statics.createFromUserCart = function(
-    this: IOrderModel,
+    this: Model<IOrder>,
     user: IUser
 ): Promise<IOrder> {
         return user.getCart().then(cart => {
@@ -72,7 +73,7 @@ orderSchema.statics.createFromUserCart = function(
     };
 
 orderSchema.statics.findByUserId = function(
-    this: IOrderModel,
+    this: Model<IOrder>,
     userId: string | mongoose.Types.ObjectId
 ): Promise<IOrder[]> {
         return this.find({ userId: userId }).populate('items.product');

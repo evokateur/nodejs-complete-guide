@@ -15,6 +15,7 @@ interface ICart {
 
 // Interface for User document
 export interface IUser extends Document {
+    id: string;
     username: string;
     email: string;
     cart: ICart;

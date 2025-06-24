@@ -69,7 +69,8 @@ export const postCartItem = (req: AuthenticatedRequest, res: Response, next: Nex
     Product.findById(productId)
         .then(product => {
             if (!product) {
-                return res.redirect('/cart');
+                res.redirect('/cart');
+                return Promise.resolve(null);
             }
             return req.user.addCartItem(product);
         })
