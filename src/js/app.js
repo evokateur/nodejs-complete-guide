@@ -18,7 +18,7 @@ const adminRoutes = require('./routes/admin.js');
 const shopRoutes = require('./routes/shop.js');
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, '../../public')));
+app.use(express.static('public'));
 
 app.use((req, res, next) => {
     User.findOne({ username: 'default' })
