@@ -40,32 +40,38 @@ The application should be available at <http://localhost:3000/>
 ## Project Structure
 
 - Both JavaScript and TypeScript versions are fully functional
-- Original JavaScript files are preserved for reference and head-scratching
+- JavaScript version preserved for reference and educational purposes
 
 ```
+
 .
-├── app.js                    # Original JavaScript entry point
 ├── src
-│   ├── app.ts                # TypeScript entry point
-│   ├── controllers
-│   │   ├── admin.js
-│   │   ├── admin.ts
-│   │   ├── error.js
-│   │   ├── error.ts
-│   │   ├── shop.js
-│   │   └── shop.ts
-│   ├── models
-│   │   ├── order.js
-│   │   ├── order.ts
-│   │   ├── product.js
-│   │   ├── product.ts
-│   │   ├── user.js
-│   │   └── user.ts
-│   └── routes
-│       ├── admin.js
-│       ├── admin.ts
-│       ├── shop.js
-│       └── shop.ts
+│   ├── js
+│   │   ├── app.js             # JavaScript entry point
+│   │   ├── controllers
+│   │   │   ├── admin.js
+│   │   │   ├── error.js
+│   │   │   └── shop.js
+│   │   ├── models
+│   │   │   ├── order.js
+│   │   │   ├── product.js
+│   │   │   └── user.js
+│   │   └── routes
+│   │       ├── admin.js
+│   │       └── shop.js
+│   └── ts
+│       ├── app.ts             # TypeScript entry point
+│       ├── controllers
+│       │   ├── admin.ts
+│       │   ├── error.ts
+│       │   └── shop.ts
+│       ├── models
+│       │   ├── order.ts
+│       │   ├── product.ts
+│       │   └── user.ts
+│       └── routes
+│           ├── admin.ts
+│           └── shop.ts
 ├── dist/                     # Compiled TypeScript output
 ```
 
