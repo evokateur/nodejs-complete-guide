@@ -84,6 +84,7 @@ The application should be available at <http://localhost:3000/>
 npm run dev                   # Run TypeScript version with hot reload
 npm run build                 # Compile TypeScript to JavaScript
 npm run start                 # Run compiled JavaScript version
+npm start                     # ..same as above
 npm run build:watch           # Compile TypeScript in watch mode
 ```
 
