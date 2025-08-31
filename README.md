@@ -2,8 +2,7 @@
 
 Coding along with [**NodeJS - The Complete Guide**](https://www.udemy.com/course/nodejs-the-complete-guide/)
 
-This is the Products Shop app developed in Sections 3 through ~23~ 13
-(currently), with the added twist of TypeScript
+This is the Products Shop app developed in [Sections 3 through 23](@docs/sections.md), with the added twist of TypeScript
 
 ![Capture d’écran 2025-06-09 à 15 35 37](https://github.com/user-attachments/assets/1774c6ff-8eb2-4934-925c-04af2c2902ad)
 

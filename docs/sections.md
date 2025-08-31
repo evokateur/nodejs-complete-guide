@@ -1,0 +1,23 @@
+# Sections Completed
+
+- [x] 3. Understanding the Basics
+- [x] 4. Improved Development Workflow and Debugging
+- [x] 5. Working with Express.js
+- [x] 6. Working with Dynamic Content and Adding Template Engines
+- [x] 7. The Model-View-Controller (MVC)
+- [x] 8. Optional: Enhancing the App
+- [x] 9. Dynamic Routes & Advanced Modules
+- [x] 10. SQL Introductions
+- [x] 11. Understanding Sequelize
+- [x] 12. Working with NoSQL & Using MongoDB
+- [x] 13. Working with Mongoose
+- [ ] 14. Session & Cookies
+- [ ] 15. Adding Authentication
+- [ ] 16. Sending Emails
+- [ ] 17. Advanced Authentication
+- [ ] 18. Understanding Validation
+- [ ] 19. Error Handling
+- [ ] 20. File Upload & Download
+- [ ] 21. Adding Pagination
+- [ ] 22. Understanding Async Requests
+- [ ] 23. Adding Payments
